@@ -87,3 +87,35 @@
 # A fronteira esta confirmada de forma independente: em 0x821190B8 esta
 # 7D8802A6 = mflr r12, ou seja o prologo da funcao seguinte comeca ali.
 "0x82118F94" = { end = 0x821190B8 }  # 73 instrucoes
+
+# --- ronda 6: XEX do usuario (nao USA Rev 1) --------------------------------
+# Alvos UnresolvedCall da ronda 1 do codegen com o XEX do usuario
+# (SHA dd2ca1ab..., entry 0x82136950), apos 439,1 s de analise, 0 ficheiros
+# gerados. Fronteiras obtidas com:
+#     python tools/xex_image.py ../extracted/default.xex --sweep <addr>
+# 'end' e EXCLUSIVO, como nas rondas anteriores. Nenhum alvo cai DENTRO de
+# uma funcao ja declarada nos dois tomls; a unica sobreposicao foi tratada
+# por truncamento (ver 0x8249E9DC abaixo). gh3_orphans_scan.toml NAO foi
+# tocado (ficheiro gerado) e o manifest NAO foi alterado.
+"0x8279BC60" = { end = 0x8279BC68 }  # 2 instr, b 0x82799920 -- chamado de 0x8279CAA4
+"0x82360110" = { end = 0x82360124 }  # 5 instr, b 0x824157F8 -- chamado de 0x8222B9D8
+"0x827AC3C4" = { end = 0x827AC444 }  # 32 instr, blr -- chamado de 0x827AC3AC
+"0x82431AF8" = { end = 0x82431B0C }  # 5 instr, b 0x8248EB9C -- chamado de 0x82431AA0; cabe na folga 0x82431AE8-0x82431B1C entre as funcoes vizinhas
+"0x82331890" = { end = 0x823318A8 }  # 6 instr, blr -- chamado de 0x821C0CD8 e 0x821C0CBC
+"0x824A12E0" = { end = 0x824A142C }  # 83 instr, b 0x8248EBA0 -- chamado de 0x824A12CC
+# TRUNCADO: o sweep deu end 0x8249EA60 (33 instr, b 0x8248EBAC), mas isso
+# sobrepor-se-ia a entrada 0x8249E9EC de gh3_orphans_scan.toml. Neste XEX,
+# 0x8249E9EC nao e um thunk separado como na USA Rev 1: e o cabecalho do
+# laco dentro do bloco varrido (o ramo em 0x8249E9F8 volta para la, e o
+# bloco continua ate ao b 0x8248EBAC em 0x8249EA5C). Como o orphans_scan nao
+# pode ser editado, corta-se aqui como nas rondas anteriores: ficam 4
+# instrucoes, terminando no b 0x8249E9F0 em 0x8249E9E8. Se a ronda 2
+# reportar chamadas sem funcao a partir deste bloco, e este truncamento
+# que tem de ser revisto (e, em ultimo caso, a entrada 0x8249E9EC).
+"0x8249E9DC" = { end = 0x8249E9EC }  # 4 instr (truncado de 33), b 0x8249E9F0 -- chamado de 0x8249E8B0
+"0x821EECA0" = { end = 0x821EECBC }  # 7 instr, b 0x8248EB80 -- chamado de 0x821EEC48
+"0x8232C458" = { end = 0x8232C468 }  # 4 instr, bctr -- chamado de 0x8225BC7C
+"0x8232C378" = { end = 0x8232C388 }  # 4 instr, bctr -- chamado de 0x8225B8FC
+"0x827A6758" = { end = 0x827A6760 }  # 2 instr, b 0x82799920 -- chamado de 0x827A6B34
+"0x8232C388" = { end = 0x8232C398 }  # 4 instr, bctr -- chamado de 0x8225B914
+"0x8232C398" = { end = 0x8232C3A8 }  # 4 instr, bctr -- chamado de 0x8225B92C
